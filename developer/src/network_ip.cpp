@@ -2981,6 +2981,10 @@ NetworkIpLayer(Node *node, Message *msg)
             NdpHandleProtocolEvent(node, msg);
             break;
         }
+		case ROUTING_PROTOCOL_MYPROTOCOL:
+		{
+			MyprotocolHandleProtocolEvent(node, msg);
+		}
 #endif // WIRELESS_LIB
 
 #ifdef ADDON_BOEINGFCS
@@ -3368,6 +3372,10 @@ NetworkIpFinalize(Node *node)
                     IerpFinalize(node);
                     break;
                 }
+				case ROUTING_PROTOCOL_MYPROTOCOL:
+				{
+					MyprotocolFinalize(node);
+				}
 #endif // WIRELESS_LIB
 #ifdef ENTERPRISE_LIB
                 case ROUTING_PROTOCOL_OSPFv2:
@@ -22039,6 +22047,25 @@ IpRoutingInit(Node *node,
                     break;
                 }
     //EndIERP
+    //StartMYPROTOCOL
+    			case ROUTING_PROTOCOL_MYPROTOCOL:
+    			{
+					if (!NetworkIpGetRoutingProtocol(
+												node, ROUTING_PROTOCOL_MYPROTOCOL))
+					{
+						MyprotocolInit(node,
+							(MyprotocolData**) &ip->interfaceInfo[i]->routingProtocol,
+							nodeInput,
+							i);
+					}
+					else
+					{
+						NetworkIpUpdateUnicastRoutingProtocolAndRouterFunction(
+							node, ROUTING_PROTOCOL_MYPROTOCOL, i);
+					}
+					break;
+    			}
+	//EndMYPROTOCOL
     #endif // WIRELESS_LIB
     #ifdef ENTERPRISE_LIB
                 case ROUTING_PROTOCOL_OSPFv2:
