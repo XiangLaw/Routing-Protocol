@@ -280,7 +280,7 @@ struct Node {
 #endif // LTE_LIB
 
 #ifdef MYPROTOCOL_H
-	BOOL isRoot; //flag for sink node
+	BOOL isRoot;    //flag for sink node
 #endif
 };
 

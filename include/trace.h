@@ -410,9 +410,7 @@ enum TraceProtocolType
 
     TRACE_AMSDU_SUB_HDR,
     TRACE_ZIGBEEAPP,
-
-	TRACE_MYPROTCOL,
-	
+	TRACE_MYPROTOCOL,
     // Must be last one!!!
     TRACE_ANY_PROTOCOL
 };
