@@ -48,8 +48,8 @@
 #define MYPROTOCOL_SIZE_OF_HEADER 4
 
 //Myprotocol Packet Types
- #define MYPROTOCOL_RREQ        1   // route request packet type
- #define MYPROTOCOL_RREP        2   /* route reply packet type(when a node finds itself congested 
+#define MYPROTOCOL_RREQ        1   // route request packet type
+#define MYPROTOCOL_RREP        2   /* route reply packet type(when a node finds itself congested 
 															 for more than a certain period of time
 															 or a node finds its neighbor node lost 
 															 connection for more than a certain period 
@@ -69,7 +69,7 @@ typedef struct str_myprotocol_route_cache_entry
 {		 
 	NodeAddress nextHop;	 //next hop neighbor node's address
 	UInt8 hopCount;            //hop length to root node through neighbor node
-	BOOL isCongested; 		 //next hop neighbor node's congestion status	
+	// BOOL isCongested; 		 //next hop neighbor node's congestion status	
 	UInt32 sequenceNumber;//sequence number corresponding to the record's RRP
 	clocktype routeEntryTime;//the time when route entry was generated
 	struct str_myprotocol_route_cache_entry* prev;//pointer to previous route cache entry struct
@@ -181,6 +181,11 @@ typedef struct
 // Myprotocol main data structure
 typedef struct
 {
+	// set of user configurable parameters
+	clocktype broadcastPeriod;     // sink node's broadcast period 
+	
+
+	// set of protocol dependent parameters
     MyprotocolBuffer msgBuffer;           // Myprotocol messge buffer
     MyprotocolRexmtBuffer rexmtBuffer;
 
@@ -220,12 +225,9 @@ void MyprotocolInit(
 
 // Function to handle protocol specific packets.
 void MyprotocolHandleProtocolPacket(
-         Node* node,
-         Message* msg,
-         NodeAddress srcAddr,
-         NodeAddress destAddr,
-         int ttl,
-         NodeAddress prevHop);
+			 Node* node,
+			 Message* msg);
+
 
 // Function to handle internal messages such as timers
 void  MyprotocolHandleProtocolEvent(Node* node, Message* msg);
